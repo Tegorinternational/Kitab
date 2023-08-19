@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>HTML</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <style>
+  
+    * {
+      scroll-behavior: smooth;
+    }
+    
+    .pgn:hover{
+      background-color: #6A91FF;
+      color: #FFFFFF;
+    }
+    
+  </style>
+</head>
+
+<body>
+  
+<button class="hidden" onclick="openSettings()">Open Settings</button>
+<p class="hidden" id="location"></p>
+<div class="hidden" id="fg"></div>
+  
+<!-- header -->
+<nav x-data="{ isOpen: false }" class="relative-white shadow ">
+    <div class="container px-6 py-4 mx-auto">
+      <div class="lg:flex lg:items-center lg:justify-between">
+        <div class="flex items-center justify-between">
+          <a href="#" class="flex flex-wrap">
+            <img class="w-10 rounded-full my-auto hidden" src="https://img.freepik.com/free-vector/flat-design-stationery-store-logo-template_23-2149758692.jpg?size=338&ext=jpg&ga=GA1.2.2119383441.1681220342&semt=ais" alt="">
+            <span class="text-3xl font-bold my-auto">Kitab</span>
+          </a>
+  
+          <!-- Mobile menu button -->
+          <div class="flex lg:hidden">
+            <button x-cloak @click="isOpen = !isOpen" type="button" class="text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600" aria-label="toggle menu">
+              <svg x-show="!isOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16 M4 " />
+              </svg>
+  
+              <svg x-show="isOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+  
+        <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
+        <div x-cloak :class="[isOpen ? 'translate-x-0 opacity-100 ' : 'opacity-0 -translate-x-full']" class="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:bg-transparent lg:w-auto lg:opacity-100 lg:translate-x-0 lg:flex lg:items-center bg-gray-50">
+          <div class="flex flex-col -mx-6 lg:flex-row lg:items-center lg:mx-8">
+            <a href="#enroll" class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-gray-100">Enroll Now</a>
+            <a href="#gallery" class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-gray-100">Gallery</a>
+            <a href="#contactus" class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-gray-100">Contact us</a>
+            <a href="#team" class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 hover:bg-gray-100">Team</a>
+          </div>
+  
+          <div class="flex items-center mt-4 lg:mt-0">
+            <button class="hidden mx-4 text-gray-600 transition-colors duration-300 transform lg:block hover:text-gray-700 focus:text-gray-700 focus:outline-none" aria-label="show notifications">
+              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 17H20L18.5951 15.5951C18.2141 15.2141 18 14.6973 18 14.1585V11C18 8.38757 16.3304 6.16509 14 5.34142V5C14 3.89543 13.1046 3 12 3C10.8954 3 10 3.89543 10 5V5.34142C7.66962 6.16509 6 8.38757 6 11V14.1585C6 14.6973 5.78595 15.2141 5.40493 15.5951L4 17H9M15 17V18C15 19.6569 13.6569 21 12 21C10.3431 21 9 19.6569 9 18V17M15 17H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+  
+            <button type="button" class="flex items-center focus:outline-none" aria-label="toggle profile dropdown">
+              <div class="w-8 h-8 overflow-hidden border-2 border-gray-400 rounded-full">
+                <img src="/imgs/profile.svg" id="profile-picture" class="object-cover w-full h-full" alt="avatar">
+              </div>
+  
+              <h3 class="mx-2 text-gray-800 lg:hidden" id="username">Username</h3>
+              <button class="text-gray-400 ml-auto" id="logout-button">Logout</button>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+<!-- hero -->
+<header class="">
+    <div class="container px-6 py-8 md:pt-5 mx-auto">
+      <div class="items-center lg:flex">
+        <div class="w-full lg:w-1/2">
+          <div class="lg:max-w-lg">
+            <h1 class="text-4xl font-bold text-gray-800 leading-normal lg:text-4xl">Best place to choose<br />your <span class="text-blue-500 ">books</span></h1>
+  
+            <p class="mt-3 text-gray-600 text-base">Kitab There is a free computer training program, which is given free computer education and certificate to alle.</p>
+  
+            <button class="w-full px-5 py-2 mt-6 text-sm tracking-wider text-white uppercase transition-colors duration-300 transform bg-blue-500 rounded-lg lg:w-auto hover:bg-blue-500 focus:outline-none focus:bg-blue-500" onclick="window.location.href='#shop'">Shop Now</button>
+          </div>
+        </div>
+  
+        <div class="flex items-center justify-center w-full mt-6 lg:mt-0 lg:w-1/2">
+          <img class="w-full h-full lg:max-w-3xl rounded-lg" src="/imgs/banner.png" alt="enroll">
+        </div>
+      </div>
+    </div>
+  </header>
+
+<!-- shop -->
+<section class="text-gray-600 body-font py-24" id="shop">
+  
+  <!-- search -->
+  <section class="relative w-full max-w-md px-5 py-4 mx-auto rounded-md">
+    <div class="flex flex-col text-center w-full mb-8">
+      <h1 class="text-2xl font-semibold text-center text-gray-800 capitalize lg:text-3xl leading-6 mb-2">Let's find <br> awesome <span class="text-blue-500">books</span>
+      </h1>
+      <p class="text-sm">here you can find our awesome books covers pen practical and more...</p>
+    </div>
+    <div class="flex flex-wrap w-full justify-between">
+      <div class="relative w-4/5">
+      <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+        <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none">
+          <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </span>
+      <input type="search" class="w-full border border-gray-300 rounded-md py-3 pl-10 pr-3 text-gray-700  focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40" placeholder="Search" />
+    </div>
+    <button disabled class="right-0 flex items-center px-4 bg-blue-500 rounded-md ">
+        <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none">
+          <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+    </button>
+    </div>
+  </section>
+  
+  <div class="container px-5 pt-10 mx-auto ">
+    <div class="flex flex-wrap -m-4" id="cards">
+      
+      <!-- json data will append here -->
+      
+    </div>
+  </div>
+  
+  <div class="mx-auto text-center mt-14 text-blue-500 px-6">
+    
+    <div id="pagination" class="overflow-auto w-full mx-auto mb-5 py-2"></div>
+    
+    <a class="uppercase text-xl font-medium underline" href="/shop.html" target="_blank">MORE PRODUCTS</a>
+  </div>
+  
+</section>
+
+<!-- Featured products -->
+<section class="text-gray-600 body-font py-24">
+  <div class="container px-5 pt-10 mx-auto">
+    <div class="flex flex-col text-center w-full mb-8">
+      <h1 class="text-2xl font-semibold text-center text-gray-800 capitalize lg:text-3xl leading-6 mb-2">Featured<br>products <span class="text-blue-500">for you!</span>
+      </h1>
+      <p class="text-sm">here you can find our awesome books covers pen practical and more...</p>
+    </div>
+    <div class="flex flex-wrap -m-4" id="products-container">
+      <div class="lg:w-1/4 md:w-1/2 p-4 w-1/2 hidden">
+        <a class="block relative h-48 rounded overflow-hidden">
+          <img alt="ecommerce" class="object-cover object-center w-full h-full block" src="https://images.unsplash.com/photo-1519682337058-a94d519337bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fGJvb2tzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=1000&q=60">
+        </a>
+        <div class="mt-4">
+          <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">CATEGORY</h3>
+          <h2 class="text-gray-900 title-font text-lg font-medium">The Catalyzer</h2>
+          <p class="mt-1">$16.00</p>
+        </div>
+      </div>
+      <div class="lg:w-1/4 md:w-1/2 p-4 w-1/2 hidden">
+        <a class="block relative h-48 rounded overflow-hidden">
+          <img alt="ecommerce" class="object-cover object-center w-full h-full block" src="https://dummyimage.com/421x261">
+        </a>
+        <div class="mt-4">
+          <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">CATEGORY</h3>
+          <h2 class="text-gray-900 title-font text-lg font-medium">Shooting Stars</h2>
+          <p class="mt-1">$21.15</p>
+        </div>
+      </div>
+      <div class="lg:w-1/4 md:w-1/2 p-4 w-1/2 hidden">
+        <a class="block relative h-48 rounded overflow-hidden">
+          <img alt="ecommerce" class="object-cover object-center w-full h-full block" src="https://dummyimage.com/422x262">
+        </a>
+        <div class="mt-4">
+          <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">CATEGORY</h3>
+          <h2 class="text-gray-900 title-font text-lg font-medium">Neptune</h2>
+          <p class="mt-1">$12.00</p>
+        </div>
+      </div>
+      <div class="lg:w-1/4 md:w-1/2 p-4 w-1/2 hidden">
+        <a class="block relative h-48 rounded overflow-hidden">
+          <img alt="ecommerce" class="object-cover object-center w-full h-full block" src="https://dummyimage.com/423x263">
+        </a>
+        <div class="mt-4">
+          <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">CATEGORY</h3>
+          <h2 class="text-gray-900 title-font text-lg font-medium">The 400 Blows</h2>
+          <p class="mt-1">$18.40</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</section>
+
+<!-- testimonials -->
+<section class="bg-white container mx-auto">
+    <div class="max-w-6xl px-6 py-10 mx-auto">
+        <p class="text-xl font-medium text-blue-500 ">Testimonials</p>
+
+        <h1 class="mt-2 text-2xl font-semibold text-gray-800 capitalize lg:text-3xl">
+            What clients saying
+        </h1>
+
+        <main class="relative z-20 w-full mt-8 md:flex md:items-center xl:mt-12">
+            <div class="absolute w-full bg-blue-600 -z-10 md:h-96 rounded-2xl"></div>
+            
+            <div class="w-full p-6 bg-blue-600 md:flex md:items-center rounded-2xl md:bg-transparent md:p-0 lg:px-12 md:justify-evenly">
+                <img class="h-24 w-24 md:mx-6 rounded-full object-cover shadow-md md:h-[32rem] md:w-80 lg:h-[36rem] lg:w-[26rem] md:rounded-2xl" src="https://images.unsplash.com/photo-1488508872907-592763824245?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="client photo" />
+                
+                <div class="mt-2 md:mx-6">
+                    <div>
+                        <p class="text-xl font-medium tracking-tight text-white">Ema Watson</p>
+                        <p class="text-blue-200 ">Marketing Manager at Stech</p>
+                    </div>
+
+                    <p class="mt-4 text-lg leading-relaxed text-white md:text-xl"> “Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore quibusdam ducimus libero ad tempora doloribus expedita laborum saepe voluptas perferendis delectus assumenda”.</p>
+                    
+                    <div class="flex items-center justify-between mt-6 md:justify-start">
+                        <button title="left arrow" class="p-2 text-white transition-colors duration-300 border rounded-full rtl:-scale-x-100 hover:bg-blue-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+
+                        <button title="right arrow" class="p-2 text-white transition-colors duration-300 border rounded-full rtl:-scale-x-100 md:mx-6 hover:bg-blue-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+</section>
+
+<!-- contact -->
+<section class="bg-white ">
+    <div class="container px-6 py-12 mx-auto">
+        <div>
+            <p class="font-medium text-blue-500">Contact us</p>
+
+            <h1 class="mt-2 text-2xl font-semibold text-gray-800 md:text-3xl">We’d love to hear from you</h1>
+
+            <p class="mt-3 text-gray-500">Our friendly team is always here to chat.</p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-12 mt-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div class="p-4 rounded-lg bg-blue-50 md:p-6">
+                <span class="inline-block p-3 text-blue-500 rounded-lg bg-blue-100/80">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                    </svg>
+                </span>
+
+                <h2 class="mt-4 text-base font-medium text-gray-800">Chat to sales</h2>
+                <p class="mt-2 text-sm text-gray-500">Speak to our friendly team.</p>
+                <p class="mt-2 text-sm text-blue-500">hello@merakiui.com</p>
+            </div>
+
+            <div class="p-4 rounded-lg bg-blue-50 md:p-6">
+                <span class="inline-block p-3 text-blue-500 rounded-lg bg-blue-100/80">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                    </svg>
+                </span>
+                
+                <h2 class="mt-4 text-base font-medium text-gray-800">Chat to support</h2>
+                <p class="mt-2 text-sm text-gray-500">We’re here to help.</p>
+                <p class="mt-2 text-sm text-blue-500">Start new chat</p>
+            </div>
+
+            <div class="p-4 rounded-lg bg-blue-50 md:p-6">
+                <span class="inline-block p-3 text-blue-500 rounded-lg bg-blue-100/80">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                    </svg>
+                </span>
+                
+                <h2 class="mt-4 text-base font-medium text-gray-800">Visit us</h2>
+                <p class="mt-2 text-sm text-gray-500">Visit our office HQ..</p>
+                <p class="mt-2 text-sm text-blue-500">100 Smith Street Collingwood VIC 3066 AU</p>
+            </div>
+
+            <div class="p-4 rounded-lg bg-blue-50 md:p-6">
+                <span class="inline-block p-3 text-blue-500 rounded-lg bg-blue-100/80">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+                    </svg>
+                </span>
+                
+                <h2 class="mt-4 text-base font-medium text-gray-800">Call us</h2>
+                <p class="mt-2 text-sm text-gray-500">Mon-Fri from 8am to 5pm.</p>
+                <p class="mt-2 text-sm text-blue-500">+1 (555) 000-0000</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- status -->
+<section class="text-gray-600 body-font">
+  <div class="container px-5 py-24 mx-auto">
+    <div class="flex flex-wrap -m-4 text-center">
+      <div class="p-4 sm:w-1/4 w-1/2">
+        <h2 class="title-font font-medium sm:text-4xl text-3xl text-gray-900">2.7K</h2>
+        <p class="leading-relaxed">Users</p>
+      </div>
+      <div class="p-4 sm:w-1/4 w-1/2">
+        <h2 class="title-font font-medium sm:text-4xl text-3xl text-gray-900">1.8K</h2>
+        <p class="leading-relaxed">Subscribes</p>
+      </div>
+      <div class="p-4 sm:w-1/4 w-1/2">
+        <h2 class="title-font font-medium sm:text-4xl text-3xl text-gray-900">35</h2>
+        <p class="leading-relaxed">Downloads</p>
+      </div>
+      <div class="p-4 sm:w-1/4 w-1/2">
+        <h2 class="title-font font-medium sm:text-4xl text-3xl text-gray-900">4</h2>
+        <p class="leading-relaxed">Products</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="fixed max-w-md p-4 mx-auto bg-white border border-gray-200 left-12 bottom-16 rounded-2xl z-20 hidden">
+    <h2 class="font-semibold text-gray-800"><span><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-cursor-fill h-4 w-4" viewBox="0 0 16 16">
+      <path d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103z" />
+    </svg></span>Location Notice</h2>
+
+    <p class="mt-4 text-sm text-gray-600">We use cookies to ensure that we give you the best experience on our website. <a href="#" class="text-blue-500 hover:underline">Read cookies policies</a>. </p>
+    
+    <div class="flex items-center justify-between mt-4 gap-x-4 shrink-0">
+        <button class="text-xs text-gray-800 underline transition-colors duration-300 hover:text-gray-600 focus:outline-none">
+            Manage your preferences
+        </button>
+
+        <button class=" text-xs bg-gray-900 font-medium rounded-lg hover:bg-gray-700 text-white px-4 py-2.5 duration-300 transition-colors focus:outline-none">
+            Accept
+        </button>
+    </div>
+</section>
+
+
+<!-- footer -->
+<footer class="bg-white ">
+    <div class="container px-6 py-12 mx-auto">
+        <div class="md:flex md:-mx-3 md:items-center md:justify-between">
+            <h1 class="text-xl font-semibold tracking-tight text-gray-800 md:mx-3 xl:text-2xl">Subscribe our newsletter to get update.</h1>
+            
+            <div class="mt-8 lg:mt-0">
+            <div class="flex flex-col space-y-3 sm:space-y-0 sm:flex-row sm:-mx-2">
+                <input id="email" type="text" class="px-4 py-2 text-gray-700 bg-white border border-gray-200 rounded-lg sm:mx-2  focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Email Address">
+
+                <button class="px-6 py-2 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg focus:ring focus:ring-blue-300 focus:ring-opacity-80 fo sm:mx-2 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
+                    Subscribe
+                </button>
+            </div>
+
+            <p class="mt-3 text-sm text-gray-500">Attention! Offer expires in 30 days. Make sure not to miss this opportunity</p>
+        </div>
+        </div>
+        
+        <hr class="my-6 border-gray-200 md:my-10">
+
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            <div>
+                <p class="font-semibold text-gray-800">Quick Link</p>
+
+                <div class="flex flex-col items-start mt-5 space-y-2">
+                    <a href="#" class="text-gray-600 transition-colors duration-300 hover:underline hover:text-blue-500">Home</a>
+                    <a href="#" class="text-gray-600 transition-colors duration-300 hover:underline hover:text-blue-500">Who We Are</a>
+                    <a href="#" class="text-gray-600 transition-colors duration-300 hover:underline hover:text-blue-500">Our Philosophy</a>
+                </div>
+            </div>
+
+            <div>
+                <p class="font-semibold text-gray-800">Industries</p>
+
+                <div class="flex flex-col items-start mt-5 space-y-2">
+                    <a href="#" class="text-gray-600 transition-colors duration-300 hover:underline hover:text-blue-500">Retail & E-Commerce</a>
+                    <a href="#" class="text-gray-600 transition-colors duration-300 hover:underline hover:text-blue-500">Information Technology</a>
+                    <a href="#" class="text-gray-600 transition-colors duration-300 hover:underline hover:text-blue-500">Finance & Insurance</a>
+                </div>
+            </div>
+
+            <div>
+                <p class="font-semibold text-gray-800">Services</p>
+
+                <div class="flex flex-col items-start mt-5 space-y-2">
+                    <a href="#" class="text-gray-600 transition-colors duration-300 hover:underline hover:text-blue-500">Translation</a>
+                    <a href="#" class="text-gray-600 transition-colors duration-300 hover:underline hover:text-blue-500">Proofreading & Editing</a>
+                    <a href="#" class="text-gray-600 transition-colors duration-300 hover:underline hover:text-blue-500">Content Creation</a>
+                </div>
+            </div>
+
+            <div>
+                <p class="font-semibold text-gray-800">Contact Us</p>
+
+                <div class="flex flex-col items-start mt-5 space-y-2">
+                    <a href="#" class="text-gray-600 transition-colors duration-300 hover:underline hover:text-blue-500">+880 768 473 4978</a>
+                    <a href="#" class="text-gray-600 transition-colors duration-300 hover:underline hover:text-blue-500">info@merakiui.com</a>
+                </div>
+            </div>
+        </div>
+        
+        <hr class="my-6 border-gray-200 md:my-10">
+        
+        <div class="flex flex-col items-center justify-between sm:flex-row">
+            <a href="#">
+                <!--img class="w-auto h-7" src="" alt=""-->
+                <h1 class="text-4xl font-bold text-gray-900 ">Kitab</h1>
+            </a>
+
+            <p class="mt-4 text-sm text-gray-500 sm:mt-0">© Copyright 2021. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="js/index.js"></script>
+<script src="js/main.js"></script>
+
+<script>
+  function openSettings() {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          const loc = latitude + "," + longitude;
+          const F =`<h1 class="text-4xl font-bold text-gray-900 ">${loc}</h1>`;
+          document.getElementById("fg").innerHTML = F;
+        },
+        function () {
+          alert('Permission denied. Please manually enable geolocation in your device settings.');
+        }
+      );
+    } else {
+      alert('Geolocation is not supported in your browser.');
+    }
+    
+    
+  }
+</script>
+</body>
+</html>
+
+
+
+
+
